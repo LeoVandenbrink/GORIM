@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ГОРИМ — бургерная на углях</title>
+<meta name="description" content="ГОРИМ — гриль-бургерная. Жарим на углях, дымим по-честному.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;500;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- шкала прожарки: фирменный элемент, показывает прогресс скролла как степень готовности -->
+<div class="heat-gauge" aria-hidden="true">
+  <div class="heat-gauge__track">
+    <div class="heat-gauge__fill" id="heatFill"></div>
+  </div>
+  <span class="heat-gauge__label" id="heatLabel">СЫРОЙ</span>
+</div>
+
+<!-- шапка -->
+<header class="header" id="header">
+  <div class="wrap header__inner">
+    <a href="#top" class="logo">
+      <span class="logo__flame">🔥</span>
+      <span class="logo__text">ГОРИМ</span>
+    </a>
+
+    <nav class="nav" id="nav">
+      <a href="#menu" class="nav__link">Меню</a>
+      <a href="#builder" class="nav__link">Собери бургер</a>
+      <a href="#process" class="nav__link">Как жарим</a>
+      <a href="#about" class="nav__link">О нас</a>
+      <a href="#reviews" class="nav__link">Отзывы</a>
+      <a href="#contacts" class="nav__link">Контакты</a>
+    </nav>
+
+    <div class="header__actions">
+      <button class="cart-btn" id="cartBtn" aria-label="Открыть заказ">
+        <span class="cart-btn__icon">🧾</span>
+        <span class="cart-btn__count" id="cartCount">0</span>
+      </button>
+      <button class="burger-menu" id="burgerMenu" aria-label="Открыть меню" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero__embers" id="embers" aria-hidden="true"></div>
+    <div class="wrap hero__inner">
+      <p class="eyebrow">Гриль-бургерная · открыты с 11:00 до 23:00</p>
+      <h1 class="hero__title">
+        <span class="flicker">ГОРИМ</span>
+      </h1>
+      <p class="hero__subtitle">Жарим на живых углях, пока не пойдёт дым.<br>Без микроволновки. Без компромиссов.</p>
+      <div class="hero__actions">
+        <a href="#menu" class="btn btn--flame">Смотреть меню</a>
+        <a href="#builder" class="btn btn--ghost">Собрать свой бургер</a>
+      </div>
+      <div class="hero__figure">
+        
+        </div>
+      </div>
+    </div>
+    <a href="#menu" class="scroll-cue" aria-label="Пролистать вниз">
+      <span></span>
+    </a>
+  </section>
+
+  <!-- МЕНЮ -->
+  <section class="section" id="menu">
+    <div class="wrap">
+      <div class="section__head">
+        <p class="eyebrow">Меню</p>
+        <h2 class="section__title">Чек с гриля</h2>
+        <p class="section__desc">Каждая позиция — как строка в заказе повара. Добавляй в чек, ничего не пропадёт.</p>
+      </div>
+
+      <div class="menu-tabs" id="menuTabs">
+        <button class="menu-tab is-active" data-cat="burgers">Бургеры</button>
+        <button class="menu-tab" data-cat="sides">Гарниры</button>
+        <button class="menu-tab" data-cat="drinks">Напитки</button>
+      </div>
+
+      <div class="menu-grid" id="menuGrid"></div>
+    </div>
+  </section>
+
+  <!-- КОНСТРУКТОР БУРГЕРА -->
+  <section class="section section--dark" id="builder">
+    <div class="wrap">
+      <div class="section__head">
+        <p class="eyebrow">Собери сам</p>
+        <h2 class="section__title">Твой бургер, твои правила</h2>
+        <p class="section__desc">Выбирай слои снизу вверх — булка держит форму, начинка решает вкус.</p>
+      </div>
+
+      <div class="builder">
+        <div class="builder__stack-wrap">
+          <div class="builder__stack" id="builderStack" aria-hidden="true">
+            <div class="layer layer--bun-top" data-layer="bunTop"></div>
+            <div class="layer layer--topping" id="layerTopping" data-layer="topping" hidden></div>
+            <div class="layer layer--cheese" id="layerCheese" data-layer="cheese" hidden></div>
+            <div class="layer layer--patty" id="layerPatty" data-layer="patty"></div>
+            <div class="layer layer--sauce" id="layerSauce" data-layer="sauce" hidden></div>
+            <div class="layer layer--bun-bottom" data-layer="bunBottom"></div>
+          </div>
+          <p class="builder__stack-caption">Живой предпросмотр слоёв</p>
+        </div>
+
+        <div class="builder__controls">
+          <fieldset class="builder__group">
+            <legend>Булка</legend>
+            <div class="option-row" data-group="bun">
+              <label class="option"><input type="radio" name="bun" value="classic" checked><span>Классическая, кунжут <em>+0₽</em></span></label>
+              <label class="option"><input type="radio" name="bun" value="charcoal"><span>Угольная, чёрная <em>+40₽</em></span></label>
+              <label class="option"><input type="radio" name="bun" value="glutenfree"><span>Без глютена <em>+60₽</em></span></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="builder__group">
+            <legend>Котлета</legend>
+            <div class="option-row" data-group="patty">
+              <label class="option"><input type="radio" name="patty" value="beef" checked><span>Говядина, 180г <em>+0₽</em></span></label>
+              <label class="option"><input type="radio" name="patty" value="doublebeef"><span>Двойная говядина <em>+180₽</em></span></label>
+              <label class="option"><input type="radio" name="patty" value="chicken"><span>Куриное бедро гриль <em>−20₽</em></span></label>
+              <label class="option"><input type="radio" name="patty" value="veggie"><span>Растительная котлета <em>+10₽</em></span></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="builder__group">
+            <legend>Сыр</legend>
+            <div class="option-row" data-group="cheese">
+              <label class="option"><input type="radio" name="cheese" value="none"><span>Без сыра <em>+0₽</em></span></label>
+              <label class="option"><input type="radio" name="cheese" value="cheddar" checked><span>Чеддер <em>+40₽</em></span></label>
+              <label class="option"><input type="radio" name="cheese" value="smokedgouda"><span>Дымная гауда <em>+60₽</em></span></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="builder__group">
+            <legend>Топпинги</legend>
+            <div class="option-row" data-group="toppings">
+              <label class="option"><input type="checkbox" name="toppings" value="bacon"><span>Бекон <em>+70₽</em></span></label>
+              <label class="option"><input type="checkbox" name="toppings" value="jalapeno"><span>Халапеньо <em>+30₽</em></span></label>
+              <label class="option"><input type="checkbox" name="toppings" value="onion"><span>Карамель. лук <em>+25₽</em></span></label>
+              <label class="option"><input type="checkbox" name="toppings" value="pickles"><span>Огурцы <em>+15₽</em></span></label>
+              <label class="option"><input type="checkbox" name="toppings" value="arugula"><span>Руккола <em>+20₽</em></span></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="builder__group">
+            <legend>Соус</legend>
+            <div class="option-row" data-group="sauce">
+              <label class="option"><input type="radio" name="sauce" value="none"><span>Без соуса <em>+0₽</em></span></label>
+              <label class="option"><input type="radio" name="sauce" value="bbq" checked><span>Дымный BBQ <em>+0₽</em></span></label>
+              <label class="option"><input type="radio" name="sauce" value="garlic"><span>Чесночный майо <em>+0₽</em></span></label>
+              <label class="option"><input type="radio" name="sauce" value="spicy"><span>Острый деревенский <em>+0₽</em></span></label>
+            </div>
+          </fieldset>
+
+          <div class="builder__footer">
+            <div class="builder__price">
+              <span>Итого</span>
+              <strong id="builderPrice">340 ₽</strong>
+            </div>
+            <button class="btn btn--flame" id="builderAdd">Добавить в чек</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ПРОЦЕСС -->
+  <section class="section" id="process">
+    <div class="wrap">
+      <div class="section__head">
+        <p class="eyebrow">Кухня</p>
+        <h2 class="section__title">Как мы жарим</h2>
+      </div>
+
+      <div class="process">
+        <div class="process__step">
+          <div class="process__temp">180°</div>
+          <h3>Угли, а не газ</h3>
+          <p>Разжигаем берёзовый уголь за час до открытия — газовая горелка так не пахнет.</p>
+        </div>
+        <div class="process__step">
+          <div class="process__temp">220°</div>
+          <h3>Котлета одна, толстая</h3>
+          <p>180 грамм рубленой говядины, соль и перец. Переворачиваем один раз, не давим лопаткой.</p>
+        </div>
+        <div class="process__step">
+          <div class="process__temp">260°</div>
+          <h3>Дымная минута</h3>
+          <p>Перед снятием — минута под колпаком с дымом от щепы вишни. Отсюда и запах, который держится час.</p>
+        </div>
+        <div class="process__step">
+          <div class="process__temp">40°</div>
+          <h3>Сборка на паре</h3>
+          <p>Булку слегка распариваем над грилем — она держит форму и не расползается в руках.</p>
+        </div>
+      </div>
+
+      <div class="photo-frame photo-frame--wide">
+        <img
+          src="https://images.unsplash.com/photo-1554306297-0c86e837d24b?auto=format&fit=crop&w=1400&q=80"
+          srcset="https://images.unsplash.com/photo-1554306297-0c86e837d24b?auto=format&fit=crop&w=800&q=80 800w,
+                  https://images.unsplash.com/photo-1554306297-0c86e837d24b?auto=format&fit=crop&w=1400&q=80 1400w"
+          sizes="(max-width: 900px) 100vw, 1140px"
+          alt="Котлета жарится на угольном гриле, дым и языки пламени"
+          loading="lazy" decoding="async" width="1400" height="600">
+      </div>
+    </div>
+  </section>
+
+  <!-- О НАС -->
+  <section class="section section--split" id="about">
+    <div class="wrap about__wrap">
+      <div class="about__text">
+        <p class="eyebrow">С 2019 года</p>
+        <h2 class="section__title">Не ресторан. Гриль-будка, которая выросла</h2>
+        <p>Начинали с одной точки во дворе и решётки на две котлеты. Сейчас — зал на 40 мест, но угли те же самые, что и в первый день. Мы всё ещё не умеем готовить быстро. Зато умеем готовить честно.</p>
+        <p>Мясо берём у одной фермы под городом, булки печём сами каждое утро, соусы варим в зале — если зайдёте днём, увидите кастрюлю на плите.</p>
+        <div class="about__stats">
+          <div class="stat"><strong>2019</strong><span>год основания</span></div>
+          <div class="stat"><strong>180г</strong><span>котлета, всегда одна</span></div>
+          <div class="stat"><strong>7</strong><span>дней в неделю у гриля</span></div>
+        </div>
+      </div>
+      <div class="about__photo">
+        <div class="photo-frame photo-frame--tall">
+          <img
+            src="https://images.unsplash.com/photo-1426647644047-85304d236d05?auto=format&fit=crop&w=800&q=80"
+            srcset="https://images.unsplash.com/photo-1426647644047-85304d236d05?auto=format&fit=crop&w=600&q=80 600w,
+                    https://images.unsplash.com/photo-1426647644047-85304d236d05?auto=format&fit=crop&w=800&q=80 800w"
+            sizes="(max-width: 860px) 90vw, 500px"
+            alt="Интерьер зала «ГОРИМ»: барная стойка и деревянные столы"
+            loading="lazy" decoding="async" width="800" height="1000">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ОТЗЫВЫ -->
+  <section class="section" id="reviews">
+    <div class="wrap">
+      <div class="section__head">
+        <p class="eyebrow">Отзывы</p>
+        <h2 class="section__title">Что говорят те, кто уже дымил</h2>
+      </div>
+
+      <div class="reviews" id="reviewsTrack">
+        <article class="review">
+          <p class="review__text">«Заказывал двойного «Дурмана» — думал, не осилю. Осилил. Потом ещё картошку. Дым от бургера чувствуется, а не просто написан в меню».</p>
+          <div class="review__author">
+            <span class="review__avatar">А</span>
+            <div><strong>Артём К.</strong><span>Постоянный гость</span></div>
+          </div>
+        </article>
+        <article class="review">
+          <p class="review__text">«Собрала бургер сама через конструктор на сайте — прям как в игре. В итоге получилось даже лучше, чем я представляла».</p>
+          <div class="review__author">
+            <span class="review__avatar">М</span>
+            <div><strong>Марина Л.</strong><span>Первый визит</span></div>
+          </div>
+        </article>
+        <article class="review">
+          <p class="review__text">«Взял вегги-котлету скептически. Приятно удивлён — не пытается притвориться мясом, у неё свой вкус, и это плюс».</p>
+          <div class="review__author">
+            <span class="review__avatar">Д</span>
+            <div><strong>Даниил С.</strong><span>Вегетарианец</span></div>
+          </div>
+        </article>
+        <article class="review">
+          <p class="review__text">«Булка — отдельная песня. Мягкая, но не разваливается, даже когда соус течёт по рукам. Мелочь, а многие про неё забывают».</p>
+          <div class="review__author">
+            <span class="review__avatar">О</span>
+            <div><strong>Ольга В.</strong><span>Постоянный гость</span></div>
+          </div>
+        </article>
+      </div>
+      <div class="reviews__nav">
+        <button id="reviewPrev" aria-label="Предыдущий отзыв">←</button>
+        <button id="reviewNext" aria-label="Следующий отзыв">→</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- КОНТАКТЫ / БРОНЬ -->
+  <section class="section section--dark" id="contacts">
+    <div class="wrap contacts__wrap">
+      <div class="contacts__info">
+        <p class="eyebrow">Контакты</p>
+        <h2 class="section__title">Забронировать стол</h2>
+        <ul class="contacts__list">
+          <li><strong>Адрес</strong><span>ул. Дымная, 12, где раньше была шиномонтажка</span></li>
+          <li><strong>Часы</strong><span>Пн–Вс, 11:00–23:00</span></li>
+          <li><strong>Телефон</strong><span>+7 (900) 123-45-67</span></li>
+          <li><strong>Почта</strong><span>hello@gorim-burger.ru</span></li>
+        </ul>
+        <div class="contacts__map">
+          <iframe
+            src="https://www.google.com/maps?q=%D1%83%D0%BB.%20%D0%94%D1%8B%D0%BC%D0%BD%D0%B0%D1%8F%2C%2012&output=embed"
+            width="100%" height="100%" style="border:0"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Карта проезда до «ГОРИМ»"></iframe>
+        </div>
+      </div>
+
+      <form class="booking" id="bookingForm" novalidate>
+        <div class="field">
+          <label for="bkName">Имя</label>
+          <input type="text" id="bkName" name="name" placeholder="Как к вам обращаться">
+          <span class="field__error" data-error-for="bkName"></span>
+        </div>
+        <div class="field">
+          <label for="bkPhone">Телефон</label>
+          <input type="tel" id="bkPhone" name="phone" placeholder="+7 (___) ___-__-__">
+          <span class="field__error" data-error-for="bkPhone"></span>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="bkDate">Дата</label>
+            <input type="date" id="bkDate" name="date">
+            <span class="field__error" data-error-for="bkDate"></span>
+          </div>
+          <div class="field">
+            <label for="bkGuests">Гостей</label>
+            <select id="bkGuests" name="guests">
+              <option value="1">1</option>
+              <option value="2" selected>2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5+">5 и больше</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="bkComment">Комментарий</label>
+          <textarea id="bkComment" name="comment" rows="3" placeholder="Столик у окна, аллергии, повод"></textarea>
+        </div>
+        <button type="submit" class="btn btn--flame btn--wide">Забронировать стол</button>
+        <p class="booking__success" id="bookingSuccess" hidden>Готово! Мы перезвоним в течение 15 минут, чтобы подтвердить бронь.</p>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap footer__inner">
+    <div class="footer__brand">
+      <span class="logo__flame">🔥</span>
+      <span class="logo__text">ГОРИМ</span>
+      <p>Гриль-бургерная. Жарим на углях с 2019 года.</p>
+    </div>
+    <div class="footer__col">
+      <h4>Разделы</h4>
+      <a href="#menu">Меню</a>
+      <a href="#builder">Конструктор</a>
+      <a href="#about">О нас</a>
+      <a href="#contacts">Контакты</a>
+    </div>
+    <div class="footer__col">
+      <h4>Мы на связи</h4>
+      <a href="#">Instagram</a>
+      <a href="#">Telegram</a>
+      <a href="#">VK</a>
+    </div>
+  </div>
+  <div class="wrap footer__bottom">
+    <span>© 2026 «ГОРИМ». Все котлеты, кроме растительной, содержат мясо.</span>
+    <a href="#top" class="footer__top">Наверх ↑</a>
+  </div>
+</footer>
+
+<!-- КОРЗИНА-ЧЕК -->
+<aside class="ticket" id="ticket" aria-hidden="true">
+  <div class="ticket__head">
+    <h3>Твой чек</h3>
+    <button class="ticket__close" id="ticketClose" aria-label="Закрыть чек">✕</button>
+  </div>
+  <div class="ticket__items" id="ticketItems">
+    <p class="ticket__empty" id="ticketEmpty">Пока пусто. Дыма без бургеров не бывает.</p>
+  </div>
+  <div class="ticket__footer">
+    <div class="ticket__total">
+      <span>Итого</span>
+      <strong id="ticketTotal">0 ₽</strong>
+    </div>
+    <button class="btn btn--flame btn--wide" id="ticketCheckout">Оформить заказ</button>
+  </div>
+</aside>
+<div class="ticket__backdrop" id="ticketBackdrop"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
